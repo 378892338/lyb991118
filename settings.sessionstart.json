@@ -1,0 +1,80 @@
+{
+  "permissions": {
+    "allow": [
+      "Write(.ai/memory/**)",
+      "Edit(.ai/memory/**)",
+      "Read(.ai/memory/**)",
+      "Bash(npx tsc --noEmit*)",
+      "Bash(npm test*)",
+      "Bash(npx eslint*)",
+      "Bash(wc -l .ai/memory/**)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'timeout 10 bash .ai/hooks/orchestrator.sh session_start'",
+            "blocking": false
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "【系统警告：上下文即将压缩】请立即执行状态保存：\n1. 总结当前核心任务进度与下一步计划；\n2. 列出未解决的关键Bug或卡点；\n3. 提取当前正在使用的核心设计原则。\n将上述内容输出为结构化的 '状态快照'，随后重新阅读 .ai/memory/LESSONS.md 以确保核心记忆不丢失。"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"=== PRE-COMPACT MEMORY PRESERVATION ===\" && [ -f .ai/memory/LESSONS.md ] && head -30 .ai/memory/LESSONS.md'",
+            "blocking": false
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'if [ -f tsconfig.json ]; then npx tsc --noEmit 2>&1 | tail -5; fi'",
+            "blocking": false
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"$CLAUDE_TOOL_INPUT\" | grep -qE \"rm -rf|DROP TABLE|git push --force|git reset --hard\" && echo \"{\\\"decision\\\":\\\"deny\\\",\\\"reason\\\":\\\"Destructive operation blocked by safety hook\\\"}\" || echo \"{\\\"decision\\\":\\\"allow\\\"}\"'",
+            "blocking": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "会话即将结束。请严格执行记忆闭环与工程效能评估：\n1. 工程审查：Review all changes made in this session. If any test was modified, verify the test still passes. If any API was used without a probe script, flag it as a risk.\n2. 记忆回顾：回顾本次会话是否引用了 .ai/memory/LESSONS.md 中的条目。\n3. 记忆评分：如果引用且有效，必须使用 Edit 工具将对应条目效能评分 +1；如果引用但无效，必须使用 Edit 工具标记 [NEEDS_REWRITE]。\n4. 经验沉淀：如果发现了新经验（纠错型/发现型/模式型/决策型），必须使用 Edit 工具追加到 LESSONS.md 末尾。\n5. 完成文件编辑后，输出 JSON：{\"memory_updated\":true/false, \"lessons_cited\":[], \"lessons_added\":[], \"lessons_invalidated\":[], \"engineering_risks\":[]}"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'if [ -f .ai/memory/LESSONS.md ]; then count=$(wc -l < .ai/memory/LESSONS.md); if [ \"$count\" -gt 150 ]; then echo \"ALERT: LESSONS.md=$count lines, exceeds 150 limit. Consider cleanup.\"; else echo \"OK: LESSONS.md within limit ($count lines)\"; fi; fi'",
+            "blocking": false
+          }
+        ]
+      }
+    ]
+  }
+}
