@@ -1,0 +1,64 @@
+backend:
+  name: git-gateway
+  branch: main
+  repo: 378892338/lyb991118
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "articles"
+    label: "文章"
+    folder: "content/articles"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "日期", name: "date", widget: "date" }
+      - { label: "类型", name: "type", widget: "select", options: ["insight", "technical", "opinion"] }
+      - { label: "标签", name: "tags", widget: "list", default: [] }
+      - { label: "摘要", name: "summary", widget: "text" }
+      - { label: "阅读时长(分钟)", name: "minutesRead", widget: "number", default: 5 }
+      - { label: "精选", name: "featured", widget: "boolean", default: false }
+      - { label: "发布", name: "published", widget: "boolean", default: true }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "experiments"
+    label: "实验"
+    folder: "content/experiments"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "日期", name: "date", widget: "date" }
+      - { label: "状态", name: "status", widget: "select", options: ["ongoing", "completed", "paused"] }
+      - { label: "标签", name: "tags", widget: "list", default: [] }
+      - { label: "摘要", name: "summary", widget: "text" }
+      - { label: "技术栈", name: "techStack", widget: "list", default: [] }
+      - { label: "背景", name: "background", widget: "text" }
+      - { label: "问题", name: "problem", widget: "text" }
+      - { label: "方案", name: "approach", widget: "text" }
+      - { label: "结果", name: "result", widget: "text" }
+      - { label: "反思", name: "reflection", widget: "text" }
+      - { label: "精选", name: "featured", widget: "boolean", default: false }
+      - { label: "发布", name: "published", widget: "boolean", default: true }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "cases"
+    label: "案例"
+    folder: "content/cases"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "日期", name: "date", widget: "date" }
+      - { label: "客户", name: "client", widget: "string" }
+      - { label: "行业", name: "industry", widget: "string" }
+      - { label: "标签", name: "tags", widget: "list", default: [] }
+      - { label: "摘要", name: "summary", widget: "text" }
+      - { label: "精选", name: "featured", widget: "boolean", default: false }
+      - { label: "发布", name: "published", widget: "boolean", default: true }
+      - { label: "正文", name: "body", widget: "markdown" }
