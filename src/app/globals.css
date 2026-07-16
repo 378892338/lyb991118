@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@source "../../content/";
+
+@theme inline {
+  --color-brand-50: #e6f7f3;
+  --color-brand-100: #ccefe7;
+  --color-brand-200: #99dfcf;
+  --color-brand-300: #66cfb7;
+  --color-brand-400: #33bf9f;
+  --color-brand-500: #0d9373;
+  --color-brand-600: #0a755c;
+  --color-brand-700: #075745;
+  --color-brand-800: #053a2e;
+  --color-brand-900: #021d17;
+
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f5f5f7;
+  --color-neutral-100: #e8e8ed;
+  --color-neutral-200: #d2d2d7;
+  --color-neutral-300: #aeaeb2;
+  --color-neutral-400: #86868b;
+  --color-neutral-500: #6e6e73;
+  --color-neutral-600: #515154;
+  --color-neutral-700: #3a3a3c;
+  --color-neutral-800: #2c2c2e;
+  --color-neutral-900: #1d1d1f;
+
+  --font-sans: -apple-system, "SF Pro Text", "Helvetica Neue", "PingFang SC",
+    "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Consolas", monospace;
+
+  --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)
+    forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-scale-in: scale-in 0.3s ease-out forwards;
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-neutral-0);
+  color: var(--color-neutral-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar 样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+/* 语法高亮样式（GitHub Dark Dimmed） */
+@import "highlight.js/styles/github-dark-dimmed.css";
