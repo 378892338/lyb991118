@@ -1,9 +1,12 @@
 /**
  * 轻量级农历转换 — 零依赖
  * 干支、农历月日、宜忌 全部本地计算
+ * 基于 1900-2100 农历数据表
  */
 
 /* ── 基础常量 ── */
+
+// 农历数据表 1900-2100: 每项低12位=当年农历天数，高4位=闰月(0=无闰月)
 const LUNAR_INFO = [
   0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
   0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
@@ -23,18 +26,17 @@ const LUNAR_INFO = [
   0x14b63,
 ];
 
-const TIAN_GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
-const DI_ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
-const ZODIAC = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+const TIAN_GAN = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"] as const;
+const DI_ZHI = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"] as const;
+const ZODIAC = ["鼠","牛","虎","兔","龙","蛇","马","羊","猴","鸡","狗","猪"] as const;
 
-const CHINESE_MONTH = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊"];
+const CHINESE_MONTH = ["正","二","三","四","五","六","七","八","九","十","冬","腊"] as const;
 const CHINESE_DAY = [
   "初一","初二","初三","初四","初五","初六","初七","初八","初九","初十",
   "十一","十二","十三","十四","十五","十六","十七","十八","十九","二十",
   "廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","三十",
-];
+] as const;
 
-/* ── 宜忌词库 ── */
 const YI_POOL = [
   "出行","纳财","开工","开市","立券","交易","嫁娶","纳采","订盟","祭祀",
   "祈福","求嗣","解除","移徙","入宅","安床","修造","动土","上梁","竖柱",
@@ -46,56 +48,66 @@ const JI_POOL = [
   "词讼","针灸","赴任",
 ];
 
-/* ── 核心计算 ── */
+/* ── 公历转农历核心 ── */
 
-/** 公历 → 农历数据 (1900-2100) */
 function solarToLunar(year: number, month: number, day: number) {
-  const offset = Date.UTC(year, month - 1, day) / 86400000 - Date.UTC(1900, 0, 31) / 86400000;
-  let i = 0;
-  let days = 0;
-  for (i = 0; i < LUNAR_INFO.length; i++) {
-    days = days + (LUNAR_INFO[i] & 0xffff);
-    if (offset < days) break;
-  }
-  const lunarYear = 1900 + i;
-  let leap = false;
-  let isLeap = false;
-  let lunarMonth = 1;
-  let lunarDay = 1;
-  let sum = 0;
-  for (let m = 0; m < 13; m++) {
-    let ml = (LUNAR_INFO[i] & (0x10000 >> m)) !== 0 ? 30 : 29;
-    if (m === ((LUNAR_INFO[i] >> 16) & 0xf) + 1) ml = (LUNAR_INFO[i] & 0xf0000) !== 0 ? 30 : 29;
-    if (offset < sum + ml) {
-      lunarMonth = m + 1;
-      lunarDay = offset - sum + 1;
-      if (m > ((LUNAR_INFO[i] >> 16) & 0xf)) { lunarMonth--; isLeap = true; }
+  const baseDate = Date.UTC(1900, 0, 31);
+  const targetDate = Date.UTC(year, month - 1, day);
+  let offset = (targetDate - baseDate) / 86400000;
+
+  let lunarYear = 0;
+  let totalDays = 0;
+  for (let i = 0; i < LUNAR_INFO.length; i++) {
+    totalDays += LUNAR_INFO[i] & 0xfff;
+    if (offset < totalDays) {
+      lunarYear = 1900 + i;
+      offset -= totalDays - (LUNAR_INFO[i] & 0xfff);
       break;
     }
-    sum += ml;
-    if (m === ((LUNAR_INFO[i] >> 16) & 0xf)) { leap = true; ml = (LUNAR_INFO[i] & 0xf0000) !== 0 ? 30 : 29; }
   }
-  return { lunarYear, lunarMonth, lunarDay, isLeap, leap };
+
+  const yearInfo = LUNAR_INFO[lunarYear - 1900];
+  let lunarMonth = 1;
+  let lunarDay = 1;
+  let isLeap = false;
+  let monthSum = 0;
+  const leapMonth = (yearInfo >> 12) & 0xf;
+
+  for (let m = 1; m <= 12; m++) {
+    let monthDays = (yearInfo & (0x8000 >> (m - 1))) ? 30 : 29;
+    if (offset < monthSum + monthDays && lunarMonth === m) {
+      lunarDay = offset - monthSum + 1;
+      break;
+    }
+    monthSum += monthDays;
+    lunarMonth = m + 1;
+
+    // 闰月
+    if (leapMonth === m) {
+      const leapDays = (yearInfo & 0xf0000) ? 30 : 29;
+      if (offset < monthSum + leapDays) {
+        lunarDay = offset - monthSum + 1;
+        isLeap = true;
+        break;
+      }
+      monthSum += leapDays;
+    }
+  }
+
+  return { lunarYear, lunarMonth: lunarMonth <= 12 ? lunarMonth : 12, lunarDay: lunarDay || 1, isLeap };
 }
 
-function ganzhiYear(y: number): string {
-  return TIAN_GAN[(y - 4) % 10] + DI_ZHI[(y - 4) % 12];
+function toGanzhi(year: number, month: number, day: number) {
+  const gzYear = TIAN_GAN[(year - 4) % 10] + DI_ZHI[(year - 4) % 12];
+  const idx = (year - 1900) * 12 + month + 12;
+  const gzMonth = TIAN_GAN[idx % 10] + DI_ZHI[(idx + 1) % 12];
+  const base = Math.floor(Date.UTC(year, month - 1, day) / 86400000) + 29219 + 18;
+  const gzDay = TIAN_GAN[((base % 10) + 10) % 10] + DI_ZHI[((base % 12) + 12) % 12];
+  return { gzYear, gzMonth, gzDay };
 }
 
-function ganzhiMonth(y: number, m: number): string {
-  const idx = (y - 1900) * 12 + m + 12;
-  return TIAN_GAN[idx % 10] + DI_ZHI[(idx + 1) % 12];
-}
-
-function ganzhiDay(y: number, m: number, d: number): string {
-  const base = Math.floor(Date.UTC(y, m - 1, d) / 86400000) + 29219 + 18;
-  return TIAN_GAN[((base % 10) + 10) % 10] + DI_ZHI[((base % 12) + 12) % 12];
-}
-
-/** 基于日期种子的宜忌 */
-function pickYiJi(date: Date): { yi: string[]; ji: string[] } {
-  const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
-  // 简单的确定性伪随机
+function pickYiJi(y: number, m: number, d: number) {
+  const seed = y * 10000 + m * 100 + d;
   const r1 = (seed * 1103515245 + 12345) >>> 0;
   const r2 = (r1 * 1103515245 + 12345) >>> 0;
   const yiStart = r1 % (YI_POOL.length - 4);
@@ -105,17 +117,36 @@ function pickYiJi(date: Date): { yi: string[]; ji: string[] } {
   return { yi, ji };
 }
 
-/* ── 导出接口 ── */
+/* ── 导出 ── */
 
 export interface AlmanacDay {
-  solarDate: string;       // "2026-07-17"
-  lunarDate: string;       // "六月初四"
-  ganzhiYear: string;      // "丙午"
-  ganzhiMonth: string;     // "乙未"
-  ganzhiDay: string;       // "癸巳"
-  zodiac: string;           // "马"
+  solarDate: string;
+  lunarDate: string;
+  ganzhiYear: string;
+  ganzhiMonth: string;
+  ganzhiDay: string;
+  zodiac: string;
   yi: string[];
   ji: string[];
+}
+
+export function computeAlmanac(y: number, m: number, d: number): AlmanacDay {
+  const lunar = solarToLunar(y, m, d);
+  const monthName = (lunar.isLeap ? "闰" : "") + CHINESE_MONTH[lunar.lunarMonth - 1];
+  const dayName = CHINESE_DAY[lunar.lunarDay - 1];
+  const gz = toGanzhi(y, m, d);
+  const { yi, ji } = pickYiJi(y, m, d);
+
+  return {
+    solarDate: `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`,
+    lunarDate: `${monthName}月${dayName}`,
+    ganzhiYear: gz.gzYear,
+    ganzhiMonth: gz.gzMonth,
+    ganzhiDay: gz.gzDay,
+    zodiac: ZODIAC[(y - 4) % 12],
+    yi,
+    ji,
+  };
 }
 
 export function getTodayAlmanac(): AlmanacDay {
@@ -123,27 +154,6 @@ export function getTodayAlmanac(): AlmanacDay {
   return computeAlmanac(today.getFullYear(), today.getMonth() + 1, today.getDate());
 }
 
-export function computeAlmanac(y: number, m: number, d: number): AlmanacDay {
-  const lunar = solarToLunar(y, m, d);
-  const monthName = (lunar.isLeap ? "闰" : "") + CHINESE_MONTH[lunar.lunarMonth - 1];
-  const dayName = CHINESE_DAY[lunar.lunarDay - 1] || "";
-  const solarStr = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-
-  const { yi, ji } = pickYiJi(new Date(y, m - 1, d));
-
-  return {
-    solarDate: solarStr,
-    lunarDate: `${monthName}月${dayName}`,
-    ganzhiYear: ganzhiYear(y),
-    ganzhiMonth: ganzhiMonth(y, m),
-    ganzhiDay: ganzhiDay(y, m, d),
-    zodiac: ZODIAC[(y - 4) % 12],
-    yi,
-    ji,
-  };
-}
-
-/** 预计算 365 天数据（从今天起） */
 export function precomputeYear(): AlmanacDay[] {
   const result: AlmanacDay[] = [];
   const start = new Date();
