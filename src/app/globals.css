@@ -113,5 +113,50 @@ body {
 @keyframes leaf-fall-6 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
 @keyframes leaf-fall-7 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
 
+/* ── 晨空天空系统 ── */
+.dawn-sky-bg {
+  background: linear-gradient(180deg,
+    #c8dff5 0%,
+    #fffef2 100%
+  );
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+  animation: twinkle 5s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  60% { opacity: 0.85; }
+}
+
+.dawn-moon {
+  position: absolute;
+  top: 12%;
+  right: 14%;
+  width: 110px;
+  height: 110px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 24px rgba(255, 240, 200, 0.4));
+}
+
+.dawn-cloud {
+  position: absolute;
+  height: 32px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55) 20%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.55) 80%, transparent);
+  pointer-events: none;
+  animation: cloud-drift 30s ease-in-out alternate infinite;
+}
+@keyframes cloud-drift {
+  from { transform: translateX(-30px); }
+  to { transform: translateX(40px); }
+}
+
 /* 语法高亮样式（GitHub Dark Dimmed） */
 @import "highlight.js/styles/github-dark-dimmed.css";
