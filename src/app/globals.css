@@ -98,21 +98,6 @@ body {
   background: var(--color-neutral-400);
 }
 
-/* 叶子飘落 keyframes */
-@keyframes leaf-fall-base {
-  0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); }
-  10% { opacity: 0.7; }
-  100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); }
-}
-@keyframes leaf-fall-0 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-1 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-2 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-3 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-4 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-5 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-6 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-@keyframes leaf-fall-7 { 0% { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); } 10% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(100vh) rotate(var(--rot, 360deg)) translateX(var(--sway, 20px)); } }
-
 /* ── 晨空天空系统 ── */
 .dawn-sky-bg {
   background: linear-gradient(180deg,
