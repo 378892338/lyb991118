@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AIChatButton from "@/components/ui/AIChatButton";
+import { getTodayAlmanac } from "@/lib/almanac";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <AIChatButton />
+        <AIChatButton todayData={getTodayAlmanac()} />
       </body>
     </html>
   );
