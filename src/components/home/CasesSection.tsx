@@ -4,8 +4,10 @@ import { CaseCard } from "@/components/content/ContentCards";
 import { getFeaturedContent } from "@/lib/content";
 import Link from "next/link";
 
+import type { CaseMeta } from "@/types/content";
+
 export default function CasesSection() {
-  const cases = getFeaturedContent("cases", 3);
+  const cases = getFeaturedContent<CaseMeta>("cases", 3);
 
   return (
     <section id="cases" className="py-24 px-6">

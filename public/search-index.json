@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "ai-in-manufacturing-finance",
+    "title": "ai-in-manufacturing-finance",
+    "type": "article",
+    "date": "",
+    "tags": [],
+    "summary": "",
+    "bodyPreview": "传统财务的痛\r\n\r\n制造业财务面临的核心问题：数据量大、流程复杂、报表周期长、分析深度不够。\r\n\r\n AI能做什么\r\n\r\n1. 自动化数据录入和核对\r\n2. 智能异常检测\r\n3. 预测性财务分析\r\n4. 自然语言查询财务数据\r\n\r\n 关键不是技术\r\n\r\n对于制造业企业来说，AI落地的关键不是技术选型，而是搞清楚\"我们要解决什么问题\"。",
+    "category": "",
+    "subcategory": "",
+    "status": "",
+    "client": "",
+    "industry": ""
+  },
+  {
+    "slug": "from-finance-to-ai",
+    "title": "from-finance-to-ai",
+    "type": "article",
+    "date": "",
+    "tags": [],
+    "summary": "",
+    "bodyPreview": "起点：为什么是AI？\r\n\r\n在制造业财务领域工作了20年，我见证了从手工账到ERP系统的演变。每一次技术变革都带来了效率的飞跃——而AI，是下一个。\r\n\r\n 转型的契机\r\n\r\n2023年，第一次接触大语言模型。不是从技术角度，而是从 \"这个东西能帮我做什么\" 的角度。第一个实验是让AI帮我写财务分析报告的初稿。\r\n\r\n 第二曲线的形成\r\n\r\n第二曲线不是放弃已有的经验，而是在已有的经验上叠加新的能力。20年的财务经验+AI能力，让我能看到新的可能性。\r\n\r\n 给同行的建议\r\n\r\n不要被\"AI取代你\"的焦虑驱动，而是被\"AI能让你更强大\"的可能性驱动。",
+    "category": "",
+    "subcategory": "",
+    "status": "",
+    "client": "",
+    "industry": ""
+  },
+  {
+    "slug": "exp-001-finance-analysis",
+    "title": "exp-001-finance-analysis",
+    "type": "experiment",
+    "date": "",
+    "tags": [],
+    "summary": "",
+    "bodyPreview": "项目背景\r\n\r\n在制造业财务管理中，数据分析是核心工作之一。但传统的数据分析流程存在效率瓶颈。\r\n\r\n 技术方案\r\n\r\n- 使用 LangChain 构建 RAG pipeline\r\n- OpenAI embedding 处理财务文档\r\n- Streamlit 构建交互界面\r\n\r\n 核心代码\r\n\r\npython\r\nfrom langchain.embeddings import OpenAIEmbeddings\r\nfrom langchain.vectorstores import Chroma\r\n\r\n 初始化embedding\r\nembeddings = Ope",
+    "category": "",
+    "subcategory": "",
+    "status": "",
+    "client": "",
+    "industry": ""
+  },
+  {
+    "slug": "exp-002-llm-knowledge-base",
+    "title": "exp-002-llm-knowledge-base",
+    "type": "experiment",
+    "date": "",
+    "tags": [],
+    "summary": "",
+    "bodyPreview": "系统架构\r\n\r\n该系统采用经典的 RAG 架构：\r\n\r\n1. 文档解析层\r\n2. 向量存储层\r\n3. 检索增强层\r\n4. 问答生成层\r\n\r\n 技术栈\r\n\r\n- 后端：FastAPI + LangChain\r\n- 向量数据库：Chroma\r\n- LLM：GPT-4\r\n- 前端：React\r\n\r\n 关键设计\r\n\r\n文档解析是难点。制造业的文档格式多样，包括 PDF 图纸描述、Word 操作规范、Excel 数据表等。",
+    "category": "",
+    "subcategory": "",
+    "status": "",
+    "client": "",
+    "industry": ""
+  },
+  {
+    "slug": "manufacturing-ai-qc",
+    "title": "manufacturing-ai-qc",
+    "type": "case",
+    "date": "",
+    "tags": [],
+    "summary": "",
+    "bodyPreview": "项目背景\r\n\r\n该企业是某汽车品牌的一级供应商，主要生产发动机零部件。传统质检依赖人工目检，存在漏检率高、效率低的问题。\r\n\r\n 解决方案\r\n\r\n采用计算机视觉技术，部署了自动化质检系统：\r\n1. 高清工业相机采集图像\r\n2. 深度学习模型实时检测\r\n3. 自动分拣不合格品\r\n\r\n 实施效果\r\n\r\n- 缺陷检测准确率：95% → 99.2%\r\n- 检测速度：3秒/件 → 0.5秒/件\r\n- 人力成本：降低60%\r\n\r\n 经验总结\r\n\r\nAI在制造业的落地，技术只占30%，剩下70%是流程再造和人员培训。",
+    "category": "",
+    "subcategory": "",
+    "status": "",
+    "client": "",
+    "industry": ""
+  }
+]

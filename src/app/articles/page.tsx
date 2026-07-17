@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ArticleMeta } from "@/types/content";
 import { getAllContent } from "@/lib/content";
 import { ArticleCard } from "@/components/content/ContentCards";
 
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function ArticlesPage() {
-  const articles = getAllContent("articles");
+  const articles = getAllContent<ArticleMeta>("articles");
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">

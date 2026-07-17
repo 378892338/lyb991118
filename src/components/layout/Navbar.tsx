@@ -3,7 +3,21 @@
 import Link from "next/link";
 import { useState } from "react";
 import { NAV_ITEMS, SITE_CONFIG } from "@/lib/constants";
+import type { NavItem } from "@/lib/constants";
 import { Menu, X } from "lucide-react";
+
+function NavLink({ item }: { item: NavItem }) {
+  return (
+    <Link
+      href={item.href || "#"}
+      className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
+    >
+      {item.label}
+      <span className="ml-1 text-neutral-300">/</span>
+      <span className="ml-1 text-neutral-400">{item.labelCn}</span>
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,15 +36,7 @@ export default function Navbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
-            >
-              {item.label}
-              <span className="ml-1 text-neutral-300">/</span>
-              <span className="ml-1 text-neutral-400">{item.labelCn}</span>
-            </Link>
+            <NavLink key={item.label} item={item} />
           ))}
         </div>
 
@@ -49,16 +55,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-neutral-100 bg-neutral-0/95 backdrop-blur-xl">
           <div className="px-6 py-4 flex flex-col gap-1">
             {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="px-3 py-2.5 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
-              >
-                {item.label}
-                <span className="ml-1 text-neutral-300">/</span>
-                <span className="ml-1 text-neutral-400">{item.labelCn}</span>
-              </Link>
+              <NavLink key={item.label} item={item} />
             ))}
           </div>
         </div>

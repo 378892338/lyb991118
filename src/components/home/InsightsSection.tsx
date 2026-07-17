@@ -4,8 +4,10 @@ import { ArticleCard } from "@/components/content/ContentCards";
 import { getFeaturedContent } from "@/lib/content";
 import Link from "next/link";
 
+import type { ArticleMeta } from "@/types/content";
+
 export default function InsightsSection() {
-  const articles = getFeaturedContent("articles", 3);
+  const articles = getFeaturedContent<ArticleMeta>("articles", 3);
 
   return (
     <section id="insights" className="py-24 px-6 bg-neutral-50">

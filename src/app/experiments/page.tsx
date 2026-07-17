@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ExperimentMeta } from "@/types/content";
 import { getAllContent } from "@/lib/content";
 import { ExperimentCard } from "@/components/content/ContentCards";
 
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function ExperimentsPage() {
-  const experiments = getAllContent("experiments");
+  const experiments = getAllContent<ExperimentMeta>("experiments");
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { CaseMeta } from "@/types/content";
 import { getContentBySlug, getAllSlugs } from "@/lib/content";
 import MarkdownRenderer from "@/components/content/MarkdownRenderer";
 import { formatDate } from "@/lib/utils";
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = getContentBySlug("cases", slug);
+  const item = getContentBySlug<CaseMeta>("cases", slug);
   if (!item) return {};
   return {
     title: item.meta.title,
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CaseDetailPage({ params }: Props) {
   const { slug } = await params;
-  const item = getContentBySlug("cases", slug);
+  const item = getContentBySlug<CaseMeta>("cases", slug);
 
   if (!item) notFound();
 

@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AIChatButton from "@/components/ui/AIChatButton";
+import SearchDialog from "@/components/search/SearchDialog";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <AIChatButton />
+        <SearchDialog />
       </body>
     </html>
   );

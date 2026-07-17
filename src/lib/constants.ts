@@ -12,16 +12,24 @@ export const SITE_CONFIG = {
   },
 };
 
-export const NAV_ITEMS = [
+export type NavItem = {
+  label: string;
+  labelCn: string;
+  href?: string;
+  children?: NavItem[];
+};
+
+export const NAV_ITEMS: NavItem[] = [
   { label: "Home", labelCn: "首页", href: "/#hero" },
   { label: "Journey", labelCn: "历程", href: "/#journey" },
+  { label: "Knowledge", labelCn: "知识库", href: "/knowledge" },
   { label: "Experiments", labelCn: "实验", href: "/experiments" },
   { label: "AI Insights", labelCn: "洞察", href: "/ai-insights" },
   { label: "Cases", labelCn: "案例", href: "/cases" },
   { label: "Articles", labelCn: "文章", href: "/articles" },
   { label: "About", labelCn: "关于", href: "/about" },
   { label: "Contact", labelCn: "联系", href: "/contact" },
-] as const;
+] as unknown as NavItem[];
 
 export const CONTENT_TAG_LINES = [
   { id: "career-transition", label: "人生第二曲线", color: "brand" },

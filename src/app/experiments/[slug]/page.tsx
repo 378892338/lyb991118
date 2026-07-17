@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { ExperimentMeta } from "@/types/content";
 import { getContentBySlug, getAllSlugs } from "@/lib/content";
 import MarkdownRenderer from "@/components/content/MarkdownRenderer";
 import { formatDate } from "@/lib/utils";
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = getContentBySlug("experiments", slug);
+  const item = getContentBySlug<ExperimentMeta>("experiments", slug);
   if (!item) return {};
   return {
     title: item.meta.title,
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ExperimentDetailPage({ params }: Props) {
   const { slug } = await params;
-  const item = getContentBySlug("experiments", slug);
+  const item = getContentBySlug<ExperimentMeta>("experiments", slug);
 
   if (!item) notFound();
 
@@ -74,7 +75,7 @@ export default async function ExperimentDetailPage({ params }: Props) {
 
           {item.meta.techStack && (
             <div className="flex flex-wrap gap-2 mt-4">
-              {(item.meta.techStack as string[]).map((tech) => (
+              {item.meta.techStack.slice(0, 5).map((tech) => (
                 <span
                   key={tech}
                   className="text-xs px-2 py-1 rounded-full bg-neutral-900 text-neutral-50"

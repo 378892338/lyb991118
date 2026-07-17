@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CaseMeta } from "@/types/content";
 import { getAllContent } from "@/lib/content";
 import { CaseCard } from "@/components/content/ContentCards";
 
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function CasesPage() {
-  const cases = getAllContent("cases");
+  const cases = getAllContent<CaseMeta>("cases");
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">

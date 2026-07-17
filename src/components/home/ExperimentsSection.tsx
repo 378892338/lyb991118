@@ -4,8 +4,10 @@ import { ExperimentCard } from "@/components/content/ContentCards";
 import { getFeaturedContent } from "@/lib/content";
 import Link from "next/link";
 
+import type { ExperimentMeta } from "@/types/content";
+
 export default function ExperimentsSection() {
-  const experiments = getFeaturedContent("experiments", 3);
+  const experiments = getFeaturedContent<ExperimentMeta>("experiments", 3);
 
   return (
     <section id="experiments" className="py-24 px-6">
