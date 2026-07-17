@@ -2,9 +2,8 @@ backend:
   name: github
   repo: 378892338/lyb991118
   branch: main
-  # OAuth via built-in Next.js API route
-  base_url: https://liuybhub.top
-  auth_endpoint: api/auth
+  auth_type: pkce
+  app_id: Ov23liGGmRYqluGry4eO
 
 publish_mode: editorial_workflow
 
