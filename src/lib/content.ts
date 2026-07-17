@@ -26,7 +26,8 @@ export function getAllContent<T = ContentMeta>(type: ContentType): T[] {
   const items = files.map((file) => {
     const raw = fs.readFileSync(path.join(dir, file), "utf-8");
     const { data } = matter(raw);
-    return injectType<T>(data, type);
+    const slug = (data.slug as string) || file.replace(/\.md$/, "");
+    return injectType<T>({ ...data, slug }, type);
   });
 
   return items

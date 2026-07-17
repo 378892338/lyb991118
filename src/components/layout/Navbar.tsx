@@ -6,10 +6,11 @@ import { NAV_ITEMS, SITE_CONFIG } from "@/lib/constants";
 import type { NavItem } from "@/lib/constants";
 import { Menu, X } from "lucide-react";
 
-function NavLink({ item }: { item: NavItem }) {
+function NavLink({ item, onClick }: { item: NavItem; onClick?: () => void }) {
   return (
     <Link
       href={item.href}
+      onClick={onClick}
       className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
     >
       {item.label}
@@ -55,7 +56,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-neutral-100 bg-neutral-0/95 backdrop-blur-xl">
           <div className="px-6 py-4 flex flex-col gap-1">
             {NAV_ITEMS.map((item) => (
-              <NavLink key={item.label} item={item} />
+              <NavLink key={item.label} item={item} onClick={() => setIsOpen(false)} />
             ))}
           </div>
         </div>
