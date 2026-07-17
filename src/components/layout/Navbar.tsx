@@ -28,6 +28,8 @@ export default function Navbar() {
               className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
             >
               {item.label}
+              <span className="ml-1 text-neutral-300">/</span>
+              <span className="ml-1 text-neutral-400">{item.labelCn}</span>
             </Link>
           ))}
         </div>
@@ -54,6 +56,8 @@ export default function Navbar() {
                 className="px-3 py-2.5 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
               >
                 {item.label}
+                <span className="ml-1 text-neutral-300">/</span>
+                <span className="ml-1 text-neutral-400">{item.labelCn}</span>
               </Link>
             ))}
           </div>

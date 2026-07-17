@@ -13,14 +13,14 @@ export const SITE_CONFIG = {
 };
 
 export const NAV_ITEMS = [
-  { label: "Home", href: "/#hero" },
-  { label: "Journey", href: "/#journey" },
-  { label: "Experiments", href: "/experiments" },
-  { label: "AI Insights", href: "/ai-insights" },
-  { label: "Cases", href: "/cases" },
-  { label: "Articles", href: "/articles" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Home", labelCn: "首页", href: "/#hero" },
+  { label: "Journey", labelCn: "历程", href: "/#journey" },
+  { label: "Experiments", labelCn: "实验", href: "/experiments" },
+  { label: "AI Insights", labelCn: "洞察", href: "/ai-insights" },
+  { label: "Cases", labelCn: "案例", href: "/cases" },
+  { label: "Articles", labelCn: "文章", href: "/articles" },
+  { label: "About", labelCn: "关于", href: "/about" },
+  { label: "Contact", labelCn: "联系", href: "/contact" },
 ] as const;
 
 export const CONTENT_TAG_LINES = [
