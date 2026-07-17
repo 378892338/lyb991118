@@ -2,7 +2,9 @@ backend:
   name: github
   repo: 378892338/lyb991118
   branch: main
-  # PAT mode: user enters fine-grained token in browser. No base_url needed.
+  # OAuth via built-in Next.js API route
+  base_url: https://liuybhub.top
+  auth_endpoint: api/auth
 
 publish_mode: editorial_workflow
 
