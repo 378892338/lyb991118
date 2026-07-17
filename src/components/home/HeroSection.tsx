@@ -24,6 +24,12 @@ export default function HeroSection() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden dawn-sky-bg"
     >
+      {/* 日出暖光 */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+        style={{
+          background: 'linear-gradient(0deg, rgba(255,200,120,0.15) 0%, rgba(255,240,200,0.08) 40%, transparent 70%)'
+        }}
+      />
       {/* 星星 */}
       {STARS.map((s) => (
         <span
