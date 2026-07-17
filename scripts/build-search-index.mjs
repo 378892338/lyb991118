@@ -59,26 +59,31 @@ function buildIndex() {
     const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
 
     for (const file of files) {
-      const raw = fs.readFileSync(path.join(dir, file), "utf-8");
-      const meta = parseFrontmatter(raw);
-      // Extract body (skip frontmatter)
-      const bodyMatch = raw.replace(/^---[\s\S]*?\n---\n?/, "");
-      const bodyPreview = bodyMatch.slice(0, 300).replace(/[#*`\[\]]/g, "").trim();
+      try {
+        const raw = fs.readFileSync(path.join(dir, file), "utf-8");
+        const meta = parseFrontmatter(raw);
+        // Extract body (skip frontmatter)
+        const bodyMatch = raw.replace(/^---[\s\S]*?\n---\n?/, "");
+        const bodyPreview = bodyMatch.slice(0, 300).replace(/[#*`\[\]]/g, "").trim();
 
-      entries.push({
-        slug: meta.slug || slugFromFile(file),
-        title: meta.title || slugFromFile(file),
-        type: type.replace(/s$/, ""),
-        date: meta.date || "",
-        tags: Array.isArray(meta.tags) ? meta.tags : [],
-        summary: meta.summary || "",
-        bodyPreview,
-        category: meta.category || "",
-        subcategory: meta.subcategory || "",
-        status: meta.status || "",
-        client: meta.client || "",
-        industry: meta.industry || "",
-      });
+        entries.push({
+          slug: meta.slug || slugFromFile(file),
+          title: meta.title || slugFromFile(file),
+          type: type.replace(/s$/, ""),
+          date: meta.date || "",
+          tags: Array.isArray(meta.tags) ? meta.tags : [],
+          summary: meta.summary || "",
+          bodyPreview,
+          category: meta.category || "",
+          subcategory: meta.subcategory || "",
+          status: meta.status || "",
+          client: meta.client || "",
+          industry: meta.industry || "",
+        });
+      } catch (err) {
+        console.warn(`[build-search-index] Skipping ${file} (${err.message})`);
+        continue;
+      }
     }
   }
 
@@ -90,4 +95,8 @@ function buildIndex() {
   console.log(`search-index.json written with ${entries.length} entries`);
 }
 
-buildIndex();
+try {
+  buildIndex();
+} catch (err) {
+  console.warn(`[build-search-index] Build failed (non-fatal): ${err.message}`);
+}

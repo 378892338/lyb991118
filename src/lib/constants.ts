@@ -15,8 +15,7 @@ export const SITE_CONFIG = {
 export type NavItem = {
   label: string;
   labelCn: string;
-  href?: string;
-  children?: NavItem[];
+  href: string;
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -29,7 +28,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Articles", labelCn: "文章", href: "/articles" },
   { label: "About", labelCn: "关于", href: "/about" },
   { label: "Contact", labelCn: "联系", href: "/contact" },
-] as unknown as NavItem[];
+];
 
 export const CONTENT_TAG_LINES = [
   { id: "career-transition", label: "人生第二曲线", color: "brand" },

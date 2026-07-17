@@ -9,7 +9,7 @@ import { Menu, X } from "lucide-react";
 function NavLink({ item }: { item: NavItem }) {
   return (
     <Link
-      href={item.href || "#"}
+      href={item.href}
       className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-all"
     >
       {item.label}

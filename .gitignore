@@ -4,3 +4,4 @@ node_modules
 node_modules/**
 .next/**
 src/app/ai-insights
+/public/search-index.json

@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build-search-index.mjs",
-    "build:dev": "next build",
+    "build": "next build",
     "postbuild": "node scripts/build-search-index.mjs",
     "start": "next start"
   },

@@ -21,7 +21,7 @@ export default async function KnowledgeCategoryPage({ params }: Props) {
   const index = getContentIndex();
 
   const entries = index.filter(
-    (e) => e.category === catPath || e.subcategory === catPath
+    (e) => e.category === catPath
   );
 
   if (entries.length === 0) notFound();

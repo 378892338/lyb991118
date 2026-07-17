@@ -1,3 +1,4 @@
+import { cache } from "react";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -78,7 +79,7 @@ export function getAllSlugs(type: ContentType): string[] {
     .map((f) => f.replace(/\.md$/, ""));
 }
 
-// ── Content index (for search / category pages) ──
+// ── Content index (React-cached, for server components / SSG) ──
 
 export interface ContentIndexEntry {
   slug: string;
@@ -92,7 +93,7 @@ export interface ContentIndexEntry {
   contentType?: string;
 }
 
-export function getContentIndex(): ContentIndexEntry[] {
+export const getContentIndex = cache((): ContentIndexEntry[] => {
   const types: ContentType[] = ["articles", "experiments", "cases"];
   return types.flatMap((t) =>
     getAllContent(t).map((item) => {
@@ -110,7 +111,7 @@ export function getContentIndex(): ContentIndexEntry[] {
       };
     })
   );
-}
+});
 
 export function getAllCategories(): string[] {
   const index = getContentIndex();
